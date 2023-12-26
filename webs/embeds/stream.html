@@ -1,1 +1,115 @@
 
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>LSCounts - Stream Counters/title>
+        <link href="../../assets/themes/odometer.css" rel="stylesheet"/>
+        <script src="https://code.highcharts.com/10.3.3/highcharts.js"></script>   
+        <script src="https://code.iconify.design/iconify-icon/1.0.0-beta.3/iconify-icon.min.js"></script>
+        <script src="../../assets/themes/odometer.js"></script>
+    </head>
+
+    <body>
+        <Style>
+            body {
+                background-color: transparent;
+                color: white;
+                font-family: "roboto";
+                font-weight: 500;
+            }
+
+            .views {
+                font-size: 60px;
+                margin-top: -56px;
+                margin-left: 6px;
+            }
+
+            .likes {
+                font-size: 60px;
+                margin-top: -46px;
+                margin-left: 6px;
+            }
+
+            .viewers {
+                font-size: 60px;
+                margin-top: -50px;
+                margin-left: 6px;
+            }
+
+            .icon {
+                margin-top: 7px;
+            }
+        </Style>
+        <div>
+            <iconify-icon icon="mdi:eye" width="64" height="64" class="icon" style="color: yellow;"></iconify-icon>
+            <span id="ViewsCount" class="odometer views">0</span>
+            <br>
+            <iconify-icon icon="mdi:thumbs-up" width="64" height="64" class="icon" style="color: rgb(100,255,100);"></iconify-icon>
+            <span id="LikesCount" class="odometer likes">0</span>
+            <br>
+            <iconify-icon icon="ic:baseline-people-alt" width="64" height="64" class="icon" style="color: rgb(255, 100, 255);"></iconify-icon>
+            <span id="ViewersCount" class="odometer viewers">0</span>
+        </div>
+
+        <h1 onclick="search()">Loading</h1>
+
+        <script>
+            const urlParams = new URLSearchParams(window.location.search);
+    var id = urlParams.get("id") || "UCVKChdTNU4tiSVv0-HL3J3w";
+    var count = 0;
+
+    fetch(`https://mixerno.space/api/youtube-channel-counter/user/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        document.getElementById("name").textContent = data.user[0].count;
+      });
+
+      function data() {
+      fetch(`https://axern.space/api/get?platform=youtube&type=channel&id=UCtSdtkoGfPwIP8eh1N2pQ3A`)
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data1);
+          count3 = data.apiSubCount;
+          count4 = data.estViewCount;
+        });
+    }
+
+      function data() {
+      fetch(`https://axern.space/api/get?platform=youtube&type=stream&id=${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          viewers = data.apiViewerCount;
+          views = data.estViewCount;
+          likes = data.apiLikeCount;
+        });
+    }
+
+    function render() {
+      document.getElementById("ViewsCount").innerHTML = views;
+      document.getElementById("LikesCount").innerHTML = likes;
+      document.getElementById("ViewersCount").innerHTML = viewers;
+    };
+
+    setInterval(() => {
+      data();
+      render();
+    }, 2000);
+
+
+    function search() {
+  const prompt = window.prompt("Enter channel Name, ID, or URL.");
+  if (prompt) {
+    fetch(`https://livecounts.xyz/api/youtube-live-view-count/search/${prompt}`)
+      .then((res) => res.json())
+      .then((data) => {
+        window.location.href = "?id=" + data.results[0].id;
+        idName = data.results[0].id;
+        genGraph();
+      });
+  }
+};
+        </script>
+    </body>
+</html>
