@@ -97,6 +97,7 @@ body {
     background-color: rgb(12, 12, 12);
     border: solid 2px rgb(29, 29, 29);
     box-shadow: 0 0 10px rgb(18, 18, 18);
+    color: white;
 }
 
 .card-text {
