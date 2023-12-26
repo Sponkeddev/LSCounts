@@ -1,0 +1,46 @@
+.header {
+    height: 90px;
+    width: 100%;
+    background-color: rgb(5, 5, 5);
+    border-radius: 10px;
+    border: solid 2px rgb(67, 67, 67);
+}
+
+.header-logo {
+    height: 65px;
+    width: 65px;
+    margin: 10px;
+    border-radius: 10px;
+    border: solid 2px white;
+}
+
+.header-title {
+    color: white;
+    font-size: 20px;
+}
+
+.header-version {
+    font-size: 8px;
+    color: rgb(67, 67, 67);
+    font-size: 10px;
+}
+
+.header-btn {
+    border-radius: 100px;
+    background-color: black;
+    border: solid 2px rgb(255, 50, 255);
+    color: white;
+    font-family: "open sans";
+    font-size: 15px;
+    margin-top: -150px;
+    margin-left: 400px;
+    height: 30px;
+    width: 120px;
+    transition: 300ms;
+}
+
+.header-btn:hover {
+    background-color: rgb(255, 50 ,255);
+    box-shadow: 0 0 10px rgb(255, 50, 255);
+    transition: 300ms;
+}
