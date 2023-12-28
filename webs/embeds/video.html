@@ -1,1 +1,185 @@
 
+<!DOCTYPE html>
+<html>
+<head>
+	<title>a</title>
+        <link rel="stylesheet" href="../odometer.css">
+        <script src="../odometer.js"></script>
+	<script src="https://code.iconify.design/iconify-icon/1.0.0-beta.3/iconify-icon.min.js"></script>
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
+	<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Readex+Pro:wght@200;300;400;500;600;700&display=swap');
+
+
+body {
+	background-color: black;
+	color: white;
+}
+
+.avatar {
+    width: 16em;
+    height: 8.3em;
+    vertical-align: middle;
+    border-radius: 0px;
+    transition: .3s;
+    margin-top: 0px;
+    position: relative;
+    margin-left: 5px;
+}
+
+.avatar-background {
+    width: 450px;
+    height: 230px;
+    vertical-align: middle;
+    border-radius: 0px;
+    transition: .3s;
+    margin-top: 0px;
+    position: relative;
+    filter: blur(2px)brightness(0.2);
+    margin: 10px;
+    margin-bottom: 10px;
+}
+
+.counter-title {
+    font-size: 30px;
+    font-family: 'ubuntu light';
+    margin-top: 3px;
+    margin-left: 5px;
+}
+
+.counter {
+    font-size: 120px;
+    font-family: 'roboto medium';
+    margin-top: -110px;
+    margin-left: 80px;
+}
+
+.counter2 {
+    font-size: 120px;
+    font-family: 'roboto medium';
+    margin-top: -100px;
+    margin-left: 80px;
+}
+
+.counter3 {
+    font-size: 70px;
+    font-family: 'roboto medium';
+    margin-top: 15px;
+    margin-left: 5px;
+}
+
+.counter4 {
+    font-size: 90px;
+    font-family: 'roboto medium';
+    margin-top: 15px;
+    margin-left: 5px;
+}
+
+.footer1 {
+  font-family: ubuntu;
+  color: rgb(255, 255, 109);
+  font-size: 40px;
+  margin-top: 70px;
+  margin-left: 5px;
+}
+
+.footer2 {
+  font-family: ubuntu;
+  color: rgb(0, 255, 50);
+  font-size: 40px;
+  margin-top: 0px;
+  margin-left: 5px;
+}
+
+.footer3 {
+  font-family: ubuntu;
+  color: rgb(255, 50, 50);
+  font-size: 15px;
+  margin-left: 5px;
+}
+
+.footer4 {
+  font-family: ubuntu;
+  color: rgb(255, 255, 50);
+  font-size: 15px;
+  margin-left: 5px;
+}
+	</style>
+</head>
+
+<body>
+
+  <div class="counter-content">
+    <div class="counter-container">
+        <img class="avatar" src="../../default.png" id="counter-avatar">
+        <div class="counter-title" id="counter-title" onclick="search()">Loading</div>
+        <div class="footer1" id="footer"><iconify-icon icon="ph:eye" style="color: yellow; margin-left: 3px;"></iconify-icon></div>
+        <div class="counter odometer" id="counter">0</div>
+        <br>
+        <br>
+        <br>
+        <div class="footer2" id="footer2"><iconify-icon icon="lucide:thumbs-up" style="color: rgb(0, 255, 55); margin-left: 3px; size: 50px;"></iconify-icon></div>
+        <div class="counter2 odometer" id="counter2">0</div>
+        <br>
+             <br>
+             <br>
+             <img class="avatar-background" src="../../default.png" id="counter-avatar1">
+        </div>
+    </div>
+</div>
+<div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    var id = urlParams.get("id") || "";
+    var count = 0;
+
+    fetch(`https://mixerno.space/api/youtube-video-counter/user/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        document.getElementById("counter-title").textContent = data.user[0].count;
+        document.getElementById("counter-avatar").src = data.user[1].count;
+        document.getElementById("counter-avatar1").src = data.user[1].count;
+      });
+
+      function data() {
+      fetch(`https://mixerno.space/api/youtube-video-counter/user/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          count = data.counts[0].count;
+          count2 = data.counts[3].count;
+        });
+    }
+
+    function render() {
+      document.getElementById("counter").innerHTML = count;
+      document.getElementById("counter2").innerHTML = count2;
+    };
+
+    setInterval(() => {
+      data();
+      render();
+    }, 2000);
+
+
+    function search() {
+  const prompt = window.prompt("Enter channel Name, ID, or URL.");
+  if (prompt) {
+    fetch(`https://livecounts.xyz/api/youtube-live-view-count/search/${prompt}`)
+      .then((res) => res.json())
+      .then((data) => {
+        window.location.href = "?id=" + data.results[0].id;
+        idName = data.results[0].id;
+        genGraph();
+      });
+  }
+};
+
+  </script>
+  
+</body>
+</html>
