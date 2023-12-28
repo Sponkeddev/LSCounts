@@ -1,0 +1,121 @@
+<head>
+    <script src="https://code.highcharts.com/10.3.3/highcharts.js"></script>
+    <link rel="icon" type="image/png" href="File.png" />
+    <title>Embed Graph</title>
+    <style>
+        body {
+            background-color: black;
+        }
+
+        .name {
+            font-family: "ubuntu";
+            font-size: 20px;
+            color: white;
+        }
+    </style>
+    </head>
+<body>
+    <div id="chart" style="width: 100%; height: 100%; background-color: transparent;"></div>
+    <br>
+    <h1 id="name" class="name" onclick="search()">Loading</h1>
+     <script>
+        const params = new URLSearchParams(window.location.search);
+        var id = params.get("id") || "UCX6OQ3DkcsbYNE6H8uQQuVA";
+
+        fetch(`https://mixerno.space/api/youtube-video-counter/user/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        document.getElementById("name").textContent = data.user[0].count;
+      });
+
+      function search() {
+  const prompt = window.prompt("Enter channel Name, ID, or URL.");
+  if (prompt) {
+    fetch(`https://livecounts.xyz/api/youtube-live-view-count/search/${prompt}`)
+      .then((res) => res.json())
+      .then((data) => {
+        window.location.href = "?id=" + data.results[0].id;
+        idName = data.results[0].id;
+        genGraph();
+      });
+  }
+};
+
+        const chart = new Highcharts.chart({
+            chart: {
+                renderTo: "chart",
+                type: "line",
+                zoomType: "x",
+                backgroundColor: "transparent",
+                plotBorderColor: "transparant",
+                Animation: true,
+            },
+            title: {
+                text: "",
+            },
+            xAxis: {
+                type: "datetime",
+                tickPixelInterval: 500,
+                visible: false,
+            },
+            yAxis: {
+                visible: false,
+            },
+            credits: {
+                text: "",
+                enabled: true,
+                href: "kys = keep yourself safe",
+            },
+                  tooltip: {
+        shared: true,
+        formatter: function () {
+          var index = this.points[0].series.xData.indexOf(this.x);
+          var lastY = this.points[0].series.yData[index - 1];
+          var dif = this.y - lastY;
+          var r =
+            Highcharts.dateFormat("%A %b %e, %H:%M:%S", new Date(this.x)) +
+            '<br><span style="color:black">\u25CF </span>' +
+            this.points[0].series.name +
+            ": <b>" +
+            Highcharts.numberFormat(this.y, 0);
+          if (dif < 0) {
+            r +=
+              '<span style="color:#ff0000;font-weight:bold;"> (' +
+              Highcharts.numberFormat(dif, 0) +
+              ")</span>";
+          }
+          if (dif > 0) {
+            r +=
+              '<span style="color:#00bb00;font-weight:bold;"> (+' +
+              Highcharts.numberFormat(dif, 0) +
+              ")</span>";
+          }
+          return r;
+        },
+      },
+            series: [
+              {
+                showInLegend: false,
+                name: "Likes",
+                marker: { enabled: false },
+                color: "whitesmoke",
+                lineColor: "white",
+                lineWidth: 5,
+              },
+            ],
+        });
+
+        setInterval(async () => {
+    fetch(`https://axern.space/api/get?platform=youtube&type=video&id=${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (chart.series[0].points.length == 86400)
+          chart.series[0].data[0].remove();
+        chart.series[0].addPoint([
+          Date.now(),
+          Math.floor(data.total.likes),
+        ]);
+      });
+  }, 2000);
+     </script>
+</body>
